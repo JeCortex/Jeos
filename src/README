@@ -1,0 +1,3 @@
+
+# test
+qemu-system-i386 -hda Jeos_hd.img -m size=128M
