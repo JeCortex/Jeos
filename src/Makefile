@@ -1,6 +1,5 @@
 # Makefile for the kernel software
 #
-# Copyright(C)  2018 
 # Contact: JeCortex@yahoo.com
 #
 # This program is distributed in the hope that it will be useful,
@@ -19,11 +18,13 @@ CFLAGS = -g -w -trigraphs -fno-builtin -fno-exceptions -fno-stack-protector -m32
 
 all: Jeos
 
-Jeos: boot loader
+Jeos: boot loader kernel
 	../tool/checksize boot 1
 	../tool/checksize loader 2
+	../tool/checksize kernel 2037
 	dd if=boot              of=Jeos_hd.img ibs=512 seek=0   count=1 conv=notrunc
 	dd if=loader            of=Jeos_hd.img ibs=512 seek=1   count=2 conv=notrunc
+	dd if=kernel            of=Jeos_hd.img ibs=512 seek=3           conv=notrunc
 
 boot: boot.S
 	${CC} ${CFLAGS} -c boot.S 
@@ -34,6 +35,9 @@ loader: load.S loadmain.c
 	${CC} ${CFLAGS} -O -c loadmain.c
 	${LD} ${LDFLAGS} --oformat binary -N -Ttext 0x0000 -o loader load.o loadmain.o
 
+kernel: entry.o loadmain.o mm.o kernel.ld                                      
+	${LD} ${LDFLAGS} -T kernel.ld -o kernel entry.o loadmain.o mm.o
+
 %.o: %.c
 	$(CC) $(CPFLAGS) -c $< -o  $@
 
@@ -41,4 +45,4 @@ loader: load.S loadmain.c
 	$(CC) $(CFLAGS) -c $< -o  $@
 
 clean:
-	rm -f boot loader *.o
+	rm -f boot loader kernel *.o

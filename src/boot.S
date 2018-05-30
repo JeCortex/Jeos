@@ -1,6 +1,5 @@
 # boot.S for the kernel software
 #
-# Copyright(C)  2018 
 # Contact: JeCortex@yahoo.com
 #
 # This program is distributed in the hope that it will be useful,
