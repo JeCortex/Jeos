@@ -1,4 +1,8 @@
-#Jeos
 
-Jeos means Je'os or my os. But the code not original(yet), mostly refer to and thanks 
-to github guzhoudiaoke/babyos2.
+# Jeos
+Jeos means Je'os. inspired by guzhoudiaoke/babyos2 and xv6.
+
+# test
+make && make img
+
+qemu-system-i386 -hda ./bin/Jeos_hd.img -m size=128M

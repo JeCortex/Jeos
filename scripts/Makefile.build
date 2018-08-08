@@ -1,0 +1,67 @@
+
+AR=ar cr
+RM=rm -rf
+CP=/usr/bin/cp -a
+IMGDIR=$(srctree)/bin
+
+dirs:=$(shell find . -maxdepth 1 -type d)
+dirs:=$(basename $(patsubst ./%,%,$(dirs)))
+dirs:=$(filter-out $(exclude_dirs),$(dirs))
+
+ifneq ($(filter init, $(dirs)), )
+	dirs:=$(filter-out init,$(dirs))
+	dirs:=init $(dirs)
+endif
+
+SUBDIRS := $(dirs)
+SRCS=$(wildcard *.c)
+OBJS=$(SRCS:%.c=%.o)
+
+ifeq ($(TARGET), Boot)
+	BOOT = boot
+	OBJS = 
+endif
+ifeq ($(TARGET1), Loader)
+	LOADER = loader
+	OBJS = 
+endif
+
+all: $(TARGET) subdirs
+subdirs: $(SUBDIRS)
+	$(Q)(for dir in $(SUBDIRS);\
+	do $(MAKE) -C $$dir all||exit 1;\
+	done)
+
+$(TARGET): $(OBJS) $(BOOT) $(LOADER)
+$(OBJS): %.o:%.c
+	$(Q)$(CC) $(CFLAGS) $(LINUXINCLUDE) -c $< -o $@
+	$(Q)$(CP) $@ $(EXEPATH)
+
+$(BOOT): boot.S entry.S FORCE
+	$(Q)${CC} ${CFLAGS} $(LINUXINCLUDE) -c boot.S 
+	$(Q)${CC} ${CFLAGS} $(LINUXINCLUDE) -c entry.S 
+	$(Q)${LD} ${LDFLAGS} --oformat binary -N -Ttext 0x7c00 -o boot boot.o
+	$(Q)$(CP) boot entry.o kernel.ld main.o loadmain.o $(EXEPATH)
+
+$(LOADER): load.S loadmain.o FORCE
+	${CC} ${CFLAGS} $(LINUXINCLUDE) -c load.S
+	${LD} ${LDFLAGS} --oformat binary -N -Ttext 0x0000 -o loader load.o loadmain.o
+	$(Q)$(CP) loader $(EXEPATH)
+
+img:
+	$(Q)$(MAKE) -C $(IMGDIR) all
+
+climg:
+	$(Q)$(MAKE) -C $(IMGDIR) clean
+
+clean:
+	$(Q)for dir in $(SUBDIRS);\
+	do $(MAKE) -C $$dir clean||exit 1;\
+	done
+	$(Q)$(RM) $(BOOT) $(LOADER) *.o 2>/dev/null
+	echo $(SUBDIRS)
+
+PHONY += FORCE
+FORCE:
+
+.PHONY: $(PHONY)

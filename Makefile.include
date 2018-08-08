@@ -1,0 +1,48 @@
+
+AS = as --32
+CC = gcc -m32
+
+LDFLAGS = -m elf_i386 -static
+
+CFLAGS = -fno-pic -static -fno-builtin -fno-strict-aliasing -Wall -ggdb -m32 \
+	-Werror -fno-omit-frame-pointer -nostdinc -fno-stack-protector
+
+ifeq ("$(origin V)", "command line")
+        KBUILD_VERBOSE = $(V)
+endif
+ifndef KBUILD_VERBOSE
+        KBUILD_VERBOSE = 0
+endif
+
+ifeq ($(KBUILD_VERBOSE),1)
+	quiet =
+	Q =
+else
+	quiet=quiet_
+	Q = @
+endif
+
+SUBARCH := $(shell uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/)
+
+ARCH    ?= $(SUBARCH)
+SRCARCH 	:= $(ARCH)
+
+ifeq ($(ARCH),x86)
+	SRCARCH := i386
+endif
+ifeq ($(ARCH),x86_64)
+	SRCARCH := i386
+endif
+
+hdr-arch := $(SRCARCH)
+
+srctree         := $(if $(KBUILD_SRC),$(KBUILD_SRC),$(CURDIR))
+objtree         := $(CURDIR)
+src             := $(srctree)
+obj             := $(objtree)
+
+LINUXINCLUDE    := \
+	-I$(TOPDIR)arch/$(hdr-arch)/include \
+	$(if $(KBUILD_SRC), -I$(TOPDIR)include) \
+	-I$(TOPDIR)include \
+	-Iinclude
