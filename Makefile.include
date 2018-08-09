@@ -5,7 +5,7 @@ CC = gcc -m32
 LDFLAGS = -m elf_i386 -static
 
 CFLAGS = -fno-pic -static -fno-builtin -fno-strict-aliasing -Wall -ggdb -m32 \
-	-Werror -fno-omit-frame-pointer -nostdinc -fno-stack-protector
+	-Werror -fno-omit-frame-pointer -nostdinc -fno-stack-protector \
 	-g3 -gdwarf-2 -fvar-tracking -fvar-tracking-assignments
 
 ifeq ("$(origin V)", "command line")
