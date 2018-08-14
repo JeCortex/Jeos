@@ -105,27 +105,27 @@ void _putc(int c, color_ref_t color){
 
         switch (c) {
                 case '\n':
-                rc.left = os.cs.m_col*ASC16_WIDTH;
-                rc.top = os.cs.m_row*ASC16_HEIGHT;
-                rc.width = ASC16_WIDTH;
-                rc.height = ASC16_HEIGHT;
-                fill_rectangle(rc, BACKGROUND_COLOR);
-                os.cs.m_row++;
-                os.cs.m_col = 0;
-                scroll();
-                break;
+                        rc.left = os.cs.m_col*ASC16_WIDTH;
+                        rc.top = os.cs.m_row*ASC16_HEIGHT;
+                        rc.width = ASC16_WIDTH;
+                        rc.height = ASC16_HEIGHT;
+                        fill_rectangle(rc, BACKGROUND_COLOR);
+                        os.cs.m_row++;
+                        os.cs.m_col = 0;
+                        scroll();
+                        break;
                 case '\t':
-                num = (4 - os.cs.m_col % 4);
-                while (num--) {
-                        put_char(' ', color);
-                }
-                break;
+                        num = (4 - os.cs.m_col % 4);
+                        while (num--) {
+                                put_char(' ', color);
+                        }
+                        break;
                 case '\b':
-                backspace();
-                break;
+                        backspace();
+                        break;
                 default:
-                put_char((char) c, color);
-                break;
+                        put_char((char) c, color);
+                        break;
         }
         draw_cursor();
 }
@@ -149,7 +149,7 @@ void kprintf(color_ref_t color, const char *fmt, ...)
         for (i = 0; i < total; i++) {
                 _putc(buffer[i], color);
         }
-        spin_lock_irqsave(&os.cs.m_lock, flags);
+        spin_unlock_irqrestore(&os.cs.m_lock, flags);
 }
 
 int console_init(struct console *cs, struct screen *sc)
@@ -166,7 +166,8 @@ int console_init(struct console *cs, struct screen *sc)
         input_buffer_init(&cs->m_input_buffer);
 
         draw_background(sc);
-        _draw_cursor(cs);
+        //_draw_cursor(cs);
+        draw_cursor();
 
         return 0;
 }

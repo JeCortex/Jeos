@@ -24,6 +24,7 @@ Jeos: boot loader kernel
 	dd if=boot              of=Jeos_hd.img ibs=512 seek=0   count=1 conv=notrunc
 	dd if=loader            of=Jeos_hd.img ibs=512 seek=1   count=2 conv=notrunc
 	dd if=kernel            of=Jeos_hd.img ibs=512 seek=3           conv=notrunc
+	dd if=ASC16 		of=Jeos_hd.img ibs=512 seek=2040        conv=notrunc
 
 kernel: $(OBJS) entry.o kernel.ld                                      
 	${LD} ${LDFLAGS} -T kernel.ld -o kernel entry.o $(OBJS)

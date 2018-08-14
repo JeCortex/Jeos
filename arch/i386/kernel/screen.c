@@ -36,7 +36,6 @@ void draw_asc16(char ch, uint32 left, uint32 top, color_ref_t color)
                         if (*p_asc & test_bit) {
                                 set_pixel(left+x, top+y, color);
                         }
-
                         test_bit >>= 1;
                 }
                 p_asc++;
