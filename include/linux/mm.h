@@ -13,6 +13,7 @@
 #define _mm_t_H_
 
 #include <linux/types.h>
+#include <asm/atomic.h>
 
 #define KB                  (1024)
 #define MB                  (1024*KB)
@@ -26,6 +27,9 @@
 #define PGDIR_SHIFT	        (22)
 #define PGDIR_SIZE	        (1UL << PGDIR_SHIFT)
 
+#define PD_INDEX(va)        (((uint32)va >> 22) & 0x3ff)
+#define PT_INDEX(va)        (((uint32)va >> 12) & 0x3ff)
+
 #define VA2PA(x)	        (((uint32)(x)) - KERNEL_BASE)
 #define PA2VA(x)	        ((void *)((x) + KERNEL_BASE))
 #define NR_PDE_PER_PAGE     (PAGE_SIZE / sizeof(pde_t))
@@ -35,8 +39,7 @@
 #define MAP_NR(addr)		(((unsigned long)(addr)) >> PAGE_SHIFT)
 
 typedef struct page_s {
-        //atomic_t	ref;
-        uint32 ref;
+        atomic_t	ref;
 } page_t;
 
 typedef struct free_list_s {
@@ -61,8 +64,9 @@ struct mm {
         uint32 m_usable_phy_mem_end;
 
         free_area_t m_free_area;
+        atomic_t m_free_page_num;
 };
 
-extern int mm_init(void);
+extern int mm_init(struct mm *mm);
 #endif
 

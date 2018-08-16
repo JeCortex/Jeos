@@ -37,5 +37,6 @@ struct os {
 };
 
 extern struct os os;
+extern void panic(const char* s);
 
 #endif

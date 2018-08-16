@@ -12,6 +12,8 @@
 #ifndef _X86_H_
 #define _X86_H_
 
+#include <linux/types.h>
+
 static inline uint8 inb(uint16 port)
 {
     uint16 data;

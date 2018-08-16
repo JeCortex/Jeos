@@ -45,6 +45,8 @@
 
 /* memory */
 #define KERNEL_BASE		    0xc0000000  // 3GB
+#define EXTENED_MEM         0x100000    // 1MB
+#define KERNEL_LOAD         (KERNEL_BASE+EXTENED_MEM)
 
 /* page table, page directory entry flag */
 #define PTE_P               0x001		// present

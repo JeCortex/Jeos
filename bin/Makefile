@@ -11,6 +11,7 @@ include ../Makefile.include
 
 OBJS += mm.o \
 	main.o \
+	os.o    \
 	screen.o \
 	console.o \
 	string.o \

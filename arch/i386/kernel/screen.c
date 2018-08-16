@@ -14,6 +14,11 @@
 #include <asm/kernel.h>
 #include <linux/os.h>
 
+uint8 *get_vram(struct screen *sc)
+{
+        return sc->m_base;
+}
+
 void set_pixel(uint32 x, uint32 y, color_ref_t color)
 {
     if (x < os.sc.m_width && y < os.sc.m_height) {

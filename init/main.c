@@ -21,7 +21,7 @@ int main(void)
         screen_init(&os.sc);
         console_init(&os.cs, &os.sc);
         kprintf(YELLOW, "Welcome to Jeos \n");
-        //mm_init();
+        mm_init(&os.mm);
 
         while (1);
         return 0;

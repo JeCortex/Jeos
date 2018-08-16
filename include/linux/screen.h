@@ -30,5 +30,6 @@ struct screen {
 extern int screen_init(struct screen *sc);
 extern void draw_asc16(char ch, uint32 left, uint32 top, color_ref_t color);
 extern void fill_rectangle(rect_t rect, color_ref_t color);
+extern uint8 *get_vram(struct screen *sc);
 
 #endif
