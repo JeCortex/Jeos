@@ -13,6 +13,7 @@
 #include <linux/screen.h>
 #include <linux/console.h>
 #include <linux/os.h>
+#include <linux/uart.h>
 
 struct os os;
 
@@ -22,6 +23,7 @@ int main(void)
         console_init(&os.cs, &os.sc);
         kprintf(YELLOW, "Welcome to Jeos \n");
         mm_init(&os.mm);
+        uartinit();
 
         while (1);
         return 0;

@@ -15,7 +15,8 @@ OBJS += mm.o \
 	screen.o \
 	console.o \
 	string.o \
-	spinlock.o
+	spinlock.o \
+	uart.o
 
 all: Jeos
 Jeos: boot loader kernel
