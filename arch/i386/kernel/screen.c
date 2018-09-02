@@ -21,12 +21,12 @@ uint8 *get_vram(struct screen *sc)
 
 void set_pixel(uint32 x, uint32 y, color_ref_t color)
 {
-    if (x < os.sc.m_width && y < os.sc.m_height) {
-        uint8* pvram = os.sc.m_base + os.sc.m_bytes_pp*y*os.sc.m_width + os.sc.m_bytes_pp*x;
-        pvram[0] = RGB_GET_B(color);
-        pvram[1] = RGB_GET_G(color);
-        pvram[2] = RGB_GET_R(color);
-    }
+        if (x < os.sc.m_width && y < os.sc.m_height) {
+                uint8* pvram = os.sc.m_base + os.sc.m_bytes_pp*y*os.sc.m_width + os.sc.m_bytes_pp*x;
+                pvram[0] = RGB_GET_B(color);
+                pvram[1] = RGB_GET_G(color);
+                pvram[2] = RGB_GET_R(color);
+        }
 }
 
 void draw_asc16(char ch, uint32 left, uint32 top, color_ref_t color)

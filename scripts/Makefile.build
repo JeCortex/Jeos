@@ -33,7 +33,7 @@ subdirs: $(SUBDIRS)
 	done)
 
 $(TARGET): $(OBJS) $(BOOT) $(LOADER)
-$(OBJS): %.o:%.c
+$(OBJS): %.o:%.c FORCE
 	$(Q)$(CC) $(CFLAGS) $(LINUXINCLUDE) -c $< -o $@
 	$(Q)$(CP) $@ $(EXEPATH)
 
@@ -59,7 +59,6 @@ clean:
 	do $(MAKE) -C $$dir clean||exit 1;\
 	done
 	$(Q)$(RM) $(BOOT) $(LOADER) *.o 2>/dev/null
-	echo $(SUBDIRS)
 
 PHONY += FORCE
 FORCE:

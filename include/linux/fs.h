@@ -17,12 +17,13 @@
 
 #define BSIZE   SECT_SIZE
 
+#define NDIRECT 12
 #define MAX_PATH 14
 #define MAX_INODE_CACHE 64
 
 struct file_system {
-        int      *do_read(int fd, void* buffer, uint32 count);
-        int      *do_write(int fd, void* buffer, uint32 count);
-}
+        int      (*do_read)(int fd, void* buffer, uint32 count);
+        int      (*do_write)(int fd, void* buffer, uint32 count);
+};
 
 #endif

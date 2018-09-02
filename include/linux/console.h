@@ -30,10 +30,10 @@ struct color_text {
 };
 
 struct input_buffer {
-    unsigned    m_read_index;
-    unsigned    m_write_index;
-    unsigned    m_edit_index;
-    char        m_buffer[BUFFER_SIZE];
+        unsigned    m_read_index;
+        unsigned    m_write_index;
+        unsigned    m_edit_index;
+        char        m_buffer[BUFFER_SIZE];
 };
 
 struct console {

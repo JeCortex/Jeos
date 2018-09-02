@@ -30,6 +30,8 @@ typedef struct locker {
 } locker_t;
 
 extern void spinlock_init(spinlock_t *lock);
+extern void spinlock_lock(spinlock_t *lock);
+extern void spinlock_unlock(spinlock_t *lock);
 extern void spin_lock_irqsave(spinlock_t *lock, uint32 flags);
 extern void spin_unlock_irqrestore(spinlock_t *lock, uint32 flags);
 

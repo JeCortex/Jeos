@@ -12,7 +12,7 @@
 #ifndef _STRING_H_
 #define _STRING_H_
 
-#include "arg.h"
+#include <asm/arg.h>
 
 void* memmov(void* dst, const void* src, uint32 n);
 void* memcpy(void* dst, const void* src, uint32 n);

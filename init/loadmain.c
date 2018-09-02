@@ -89,4 +89,3 @@ void loadmain()
         kernel_entry_t entry = (kernel_entry_t) elf->entry;
         entry();
 }
-

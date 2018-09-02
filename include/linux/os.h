@@ -15,6 +15,7 @@
 #include <linux/screen.h>
 #include <linux/console.h>
 #include <linux/mm.h>
+#include <asm/mp.h>
 
 
 enum pool_type_e {
@@ -30,10 +31,12 @@ enum device_type_e {
 };
 
 struct os {
-    struct screen  sc;
-    struct console cs;
-    struct mm mm;
-    //struct file_system fs;
+        struct screen  sc;
+        struct console cs;
+        struct mm mm;
+        struct mparch mparch;
+
+        //struct file_system fs;
 };
 
 extern struct os os;

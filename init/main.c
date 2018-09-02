@@ -14,6 +14,7 @@
 #include <linux/console.h>
 #include <linux/os.h>
 #include <linux/uart.h>
+#include <asm/mp.h>
 
 struct os os;
 
@@ -23,7 +24,10 @@ int main(void)
         console_init(&os.cs, &os.sc);
         kprintf(YELLOW, "Welcome to Jeos \n");
         mm_init(&os.mm);
-        uartinit();
+        uart_init();
+        mp_init(&os.mparch);
+        lapic_init(&os.mparch.apic);
+        ioapic_init(&os.mparch.apic);
 
         while (1);
         return 0;

@@ -20,11 +20,11 @@
 #define ASC16_HEIGHT    16
 
 struct screen {
-	uint8*	m_base;        // base address
+	uint8*	m_base;        /* base address */
 	uint8*	m_asc16_addr;
 	uint16	m_width;
 	uint16	m_height;
-	uint8	m_bytes_pp;    // bytes per pixel
+	uint8	m_bytes_pp;    /* bytes per pixel */
 };
 
 extern int screen_init(struct screen *sc);

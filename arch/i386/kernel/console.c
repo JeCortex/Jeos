@@ -45,58 +45,58 @@ void draw_cursor()
 
 void scroll()
 {
-    if (os.cs.m_row < os.cs.m_row_num) {
-        return;
-    }
+        if (os.cs.m_row < os.cs.m_row_num) {
+                return;
+        }
 
-    // scroll screen
-    scroll();
+        /* scroll screen */
+        scroll();
 
-    // clear last line
-    rect_t rc = { 0, (os.cs.m_row-1)*ASC16_HEIGHT, ASC16_WIDTH*os.cs.m_col_num, ASC16_HEIGHT };
-    fill_rectangle(rc, BACKGROUND_COLOR);
+        /* clear last line */
+        rect_t rc = { 0, (os.cs.m_row-1)*ASC16_HEIGHT, ASC16_WIDTH*os.cs.m_col_num, ASC16_HEIGHT };
+        fill_rectangle(rc, BACKGROUND_COLOR);
 
-    os.cs.m_row--;
-    os.cs.m_col = 0;
-    draw_cursor();
+        os.cs.m_row--;
+        os.cs.m_col = 0;
+        draw_cursor();
 }
 
 void unput_char()
 {
-    rect_t rc = { os.cs.m_col*ASC16_WIDTH, os.cs.m_row*ASC16_HEIGHT, ASC16_WIDTH, ASC16_HEIGHT };
-    fill_rectangle(rc, BACKGROUND_COLOR);
+        rect_t rc = { os.cs.m_col*ASC16_WIDTH, os.cs.m_row*ASC16_HEIGHT, ASC16_WIDTH, ASC16_HEIGHT };
+        fill_rectangle(rc, BACKGROUND_COLOR);
 }
 
 void backspace()
 {
-    unput_char();
-    if (os.cs.m_col == 0) {
-        if (os.cs.m_row == 0) {
-            return;
+        unput_char();
+        if (os.cs.m_col == 0) {
+                if (os.cs.m_row == 0) {
+                        return;
+                }
+                else {
+                        os.cs.m_row--;
+                        os.cs.m_col = os.cs.m_col_num-1;
+                }
         }
         else {
-            os.cs.m_row--;
-            os.cs.m_col = os.cs.m_col_num-1;
+                os.cs.m_col--;
         }
-    }
-    else {
-        os.cs.m_col--;
-    }
-    unput_char();
+        unput_char();
 }
 
 void put_char(char c, color_ref_t color)
 {
-    rect_t rc = { os.cs.m_col*ASC16_WIDTH, os.cs.m_row*ASC16_HEIGHT, ASC16_WIDTH, ASC16_HEIGHT };
-    fill_rectangle(rc, BACKGROUND_COLOR);
-    draw_asc16((char) c, os.cs.m_col*ASC16_WIDTH, os.cs.m_row*ASC16_HEIGHT, color);
-    os.cs.m_col++;
-    if (os.cs.m_col == os.cs.m_col_num) {
-        os.cs.m_row++;
-        os.cs.m_col = 0;
-        scroll();
-    }
-    draw_cursor();
+        rect_t rc = { os.cs.m_col*ASC16_WIDTH, os.cs.m_row*ASC16_HEIGHT, ASC16_WIDTH, ASC16_HEIGHT };
+        fill_rectangle(rc, BACKGROUND_COLOR);
+        draw_asc16((char) c, os.cs.m_col*ASC16_WIDTH, os.cs.m_row*ASC16_HEIGHT, color);
+        os.cs.m_col++;
+        if (os.cs.m_col == os.cs.m_col_num) {
+                os.cs.m_row++;
+                os.cs.m_col = 0;
+                scroll();
+        }
+        draw_cursor();
 }
 
 void _putc(int c, color_ref_t color){
@@ -104,28 +104,28 @@ void _putc(int c, color_ref_t color){
         rect_t rc;
 
         switch (c) {
-                case '\n':
-                        rc.left = os.cs.m_col*ASC16_WIDTH;
-                        rc.top = os.cs.m_row*ASC16_HEIGHT;
-                        rc.width = ASC16_WIDTH;
-                        rc.height = ASC16_HEIGHT;
-                        fill_rectangle(rc, BACKGROUND_COLOR);
-                        os.cs.m_row++;
-                        os.cs.m_col = 0;
-                        scroll();
-                        break;
-                case '\t':
-                        num = (4 - os.cs.m_col % 4);
-                        while (num--) {
-                                put_char(' ', color);
-                        }
-                        break;
-                case '\b':
-                        backspace();
-                        break;
-                default:
-                        put_char((char) c, color);
-                        break;
+        case '\n':
+                rc.left = os.cs.m_col*ASC16_WIDTH;
+                rc.top = os.cs.m_row*ASC16_HEIGHT;
+                rc.width = ASC16_WIDTH;
+                rc.height = ASC16_HEIGHT;
+                fill_rectangle(rc, BACKGROUND_COLOR);
+                os.cs.m_row++;
+                os.cs.m_col = 0;
+                scroll();
+                break;
+        case '\t':
+                num = (4 - os.cs.m_col % 4);
+                while (num--) {
+                        put_char(' ', color);
+                }
+                break;
+        case '\b':
+                backspace();
+                break;
+        default:
+                put_char((char) c, color);
+                break;
         }
         draw_cursor();
 }
@@ -166,7 +166,6 @@ int console_init(struct console *cs, struct screen *sc)
         input_buffer_init(&cs->m_input_buffer);
 
         draw_background(sc);
-        //_draw_cursor(cs);
         draw_cursor();
 
         return 0;

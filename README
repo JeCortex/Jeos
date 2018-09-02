@@ -13,4 +13,3 @@ qemu-system-i386 -serial mon:stdio -drive file=./bin/Jeos_hd.img,index=0,media=d
 
 # qemu+gdb debug
 qemu-system-i386 -serial mon:stdio -drive file=./bin/Jeos_hd.img,index=0,media=disk,format=raw -m 128 -S -gdb tcp::1234
-

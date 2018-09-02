@@ -134,21 +134,21 @@ int is_digit(char c)
 int sprint_str(char* buffer, char* s, int width)
 {
         int i, len;
-    if (s == NULL) {
-        return 0;
-    }
+        if (s == NULL) {
+                return 0;
+        }
 
-    len = strlen(s);
-    if (width < len) {
-        width = len;
-    }
+        len = strlen(s);
+        if (width < len) {
+                width = len;
+        }
 
-    strcat(buffer, s);
-    buffer += len;
-    for (i = 0; i < width - len; i++) {
-        *buffer++ = ' ';
-    }
-    return width;
+        strcat(buffer, s);
+        buffer += len;
+        for (i = 0; i < width - len; i++) {
+                *buffer++ = ' ';
+        }
+        return width;
 }
 
 int sprint_int(char* buffer, int n, int width, int base, int sign)
@@ -192,65 +192,58 @@ int sprint_int(char* buffer, int n, int width, int base, int sign)
 int vsprintf(char *buffer, const char *fmt, va_list ap)
 {
         int i;
-        //static char str_null[] = "NULL";
-
         buffer[0] = '\0';
         if (fmt == NULL) {
                 return 0;
         }
-
         int total = 0;
         char c;
         int width = 0;
-        //char* s = NULL;
         for (i = 0; (c = CHARACTER(fmt[i])) != 0; i++) {
                 if (c != '%') {
                         buffer[total++] = c;
                         continue;
                 }
-
                 c = CHARACTER(fmt[++i]);
                 if (c == '\0') {
                         break;
                 }
-
                 width = 0;
                 while (c != '\0' && is_digit(c)) {
                         width = width * 10 + c - '0';
                         c = CHARACTER(fmt[++i]);
                 }
-
                 if (c == '\0') {
                         break;
                 }
 
                 switch (c) {
-                        case 'd':
+                case 'd':
                         total += sprint_int(buffer + total, va_arg(ap, int32), width, 10, 1);
                         break;
-                        case 'u':
+                case 'u':
                         total += sprint_int(buffer + total, va_arg(ap, int32), width, 10, 0);
                         break;
-                        case 'x':
-                        case 'p':
+                case 'x':
+                case 'p':
                         total += sprint_int(buffer + total, va_arg(ap, int32), width, 16, 0);
                         break;
-                        case 'c':
+                case 'c':
                         buffer[total++] = (char) CHARACTER(va_arg(ap, int32));
                         break;
-                        case 's':
+                case 's':
                         total += sprint_str(buffer + total, va_arg(ap, char *), width);
                         break;
-                        case '%':
+                case '%':
                         buffer[total++] = '%';
                         break;
-                        default:
+                default:
                         buffer[total++] = '%';
                         buffer[total++] = c;
                         break;
                 }
         }
-return total;
+        return total;
 }
 
 int sprintf(char* buffer, const char *fmt, ...)

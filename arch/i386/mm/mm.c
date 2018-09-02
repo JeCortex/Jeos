@@ -67,7 +67,7 @@ void boot_map_pages(struct mm *mm, void *va, uint32 pa, uint32 size, uint32 perm
                 else {
                         pg_table = (pte_t *)boot_mem_alloc(mm, PAGE_SIZE, 1);
                         memset(pg_table, 0, PAGE_SIZE);
-                        *pde = (VA2PA(pg_table) | PTE_P | PTE_W | 0x04);
+                        *pde = (VA2PA(pg_table) | PTE_P | PTE_W | PTE_U);
                 }
 
                 pde++;
@@ -137,6 +137,7 @@ void init_paging(struct mm *mm)
 
         // FIXME: debug
         test_page_mapping(mm);
+        kprintf(WHITE, "Out init_paging ...\n");
 }
 
 void init_mem_range(struct mm *mm)
@@ -267,6 +268,7 @@ void free_boot_mem(struct mm *mm)
 void init_free_area(struct mm *mm)
 {
         int i;
+        kprintf(WHITE, "In init_free_areai ...\n");
         uint32 mask = PAGE_MASK;
         uint32 bitmap_size;
         for (i = 0; i <= MAX_ORDER; i++) {
@@ -286,6 +288,7 @@ void init_free_area(struct mm *mm)
 
         mm->m_free_area.base = (uint8*)(((uint32)mm->m_mem_start + ~mask) & mask);
         free_boot_mem(mm);
+        kprintf(WHITE, "Out init_free_areai ...\n");
 }
 
 int mm_init(struct mm *mm)

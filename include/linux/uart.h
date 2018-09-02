@@ -12,7 +12,7 @@
 #ifndef __UART_H__
 #define __UART_H__
 
-extern void uartinit(void);
+extern void uart_init(void);
 extern void uartputc(int c);
 
 #endif

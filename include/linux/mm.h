@@ -14,6 +14,7 @@
 
 #include <linux/types.h>
 #include <asm/atomic.h>
+#include <asm/kernel.h>
 
 #define KB                  (1024)
 #define MB                  (1024*KB)
